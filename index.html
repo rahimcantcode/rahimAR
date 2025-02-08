@@ -117,25 +117,33 @@
       </a-entity>
     </a-scene>
 
+    <!-- Audio Element -->
+    <audio id="scene-audio" src="my-audio.mp3" loop></audio>
+
     <script>
+      const audio = document.getElementById("scene-audio");
+
       // Hide loading screen when AR is ready
       document.querySelector('a-scene').addEventListener('arReady', function () {
         document.getElementById('loading-screen').style.display = "none";
         console.log("✅ MindAR is ready!");
       });
 
-      // Show buttons when AR detects the card
+      // Show buttons and play audio when AR detects the card
       document.querySelector('a-scene').addEventListener('targetFound', function () {
         document.getElementById('guide-container').style.opacity = "0";
         setTimeout(() => {
           document.getElementById('guide-container').style.display = "none";
           document.getElementById('buttons-container').style.display = "block"; // Show buttons
         }, 500);
+        audio.play();
       });
 
-      // Hide buttons when target is lost
+      // Hide buttons and stop audio when target is lost
       document.querySelector('a-scene').addEventListener('targetLost', function () {
         document.getElementById('buttons-container').style.display = "none"; // Hide buttons
+        audio.pause();
+        audio.currentTime = 0; // Reset audio to start
       });
     </script>
   </body>
